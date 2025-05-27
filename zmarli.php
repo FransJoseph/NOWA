@@ -12,6 +12,7 @@
             <th>Akcje</th>
         </tr>
     </thead>
+
     <tbody>
         <?php include 'dbconfig.php';
         session_start();

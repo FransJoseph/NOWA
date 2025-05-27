@@ -80,7 +80,7 @@
 
     <div class="form-group">
         <label for="notka">Notka (niewymagana)</label>
-        <input type="text" class="form-control" id="notka" name="notka" placeholder="Informacje o przeżytych latach przy braku dat, ekshumacje, wyjaśnienia nieścisłości etc." autocomplete="off" required>
+        <input type="text" class="form-control" id="notka" name="notka" placeholder="Informacje o przeżytych latach przy braku dat, ekshumacje, wyjaśnienia nieścisłości etc." autocomplete="off">
     </div>
 
     <button type="submit" class="btn btn-primary">Dodaj grób</button>

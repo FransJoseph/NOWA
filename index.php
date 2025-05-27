@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="./css/style.css">
   <script type="text/javascript" src="app.js" defer></script>
 
-  <title>Sklep "Enter"</title>
+  <title>Wykaz Cmentarza</title>
 </head>
 
 <!-- Strona -->
@@ -35,7 +35,7 @@
                 <button type="button" link="home.php" class="link btn btn-primary">Strona główna</button>
                 <button type="button" link="zmarli.php" class="link btn btn-primary">Zmarli</button>
                 <button type="button" link="groby.php" class="link btn btn-primary">Groby</button>
-                <button type="button" link="pochowki.php" class="link btn btn-primary">Szukaj w bazie</button>
+                <button type="button" link="pochowki.php" class="link btn btn-primary">Baza</button>
                 <button type="button" link="kontakt.php" class="link btn btn-primary">Kontakt</button>
                 <?PHP session_start();
                 if (isset ($_SESSION ['login'] ) ) {?> <button type="button" link="logout.php" class="link btn btn-primary"> <i class="bi bi-unlock-fill"></i> Wyloguj się</button> <?PHP   }

@@ -12,7 +12,7 @@ if ($conn->connect_error) {
     die("Błąd połączenia z bazą danych: " . $conn->connect_error);
 }
 
-$zapytanie = "INSERT INTO `pochowki` (`id`, `id_osoby`, `id_grobu`) VALUES ('$zmarlyID', '$grobID', '$dataPochowku');";
+$zapytanie = "INSERT INTO `pochowki` (`zmarly_id`, `grob_id`, `data_pochowku`, `rodzaj_pochowku`, `notka_pochowku`) VALUES ('$zmarlyID', '$grobID', '$dataPochowku', '$rodzajPochowku', '$notkaPochowku');";
 
 
 $result = $conn->query($zapytanie);
