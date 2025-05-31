@@ -11,8 +11,12 @@ if ($conn->connect_error) {
     die("Błąd połączenia z bazą danych: " . $conn->connect_error);
 }
 
-$zapytanie = "INSERT INTO `groby` (`id`, `lokalizacja`, `rodzaj`, `oplata`, `notka`) VALUES (NULL, '$lokalizacja', '$rodzaj', '$oplata', '$notka');";
-$result = $conn->query($zapytanie);
+$stmt = $conn->prepare("INSERT INTO `groby` (`lokalizacja`, `rodzaj`, `oplata`, `notka`) VALUES (?, ?, ?, ?)");
+$stmt->bind_param("ssss", $lokalizacja, $rodzaj, $oplata, $notka);
+$stmt->execute();
+$stmt->close();
+
+// Wpisanie "'" (np w latach 60') powodowało poważne problemy
 
 $conn->close();
 ?>
@@ -26,7 +30,7 @@ $conn->close();
     <script>
         setTimeout(function () {
             window.history.back();
-        }, 1000); // 1000 ms = 1 sekunda
+        }, 250); // 1000 ms = 1 sekunda
     </script>
 </head>
 

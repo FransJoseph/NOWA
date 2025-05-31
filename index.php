@@ -18,10 +18,10 @@
 </head>
 
 <!-- Strona -->
-<body class="d-flex flex-column min-vh-100">
+<body class="d-flex flex-column min-vh-120">
 
 <!-- Kontener zawężający stronę -->
-<div class="container d-flex flex-column min-vh-100">
+<div class="container-fluid d-flex flex-column min-vh-100">
 
     <!-- Tytuł -->
     <div class="jumbotron text-center">
@@ -35,8 +35,8 @@
                 <button type="button" link="home.php" class="link btn btn-primary">Strona główna</button>
                 <button type="button" link="zmarli.php" class="link btn btn-primary">Zmarli</button>
                 <button type="button" link="groby.php" class="link btn btn-primary">Groby</button>
-                <button type="button" link="pochowki.php" class="link btn btn-primary">Baza</button>
-                <button type="button" link="kontakt.php" class="link btn btn-primary">Kontakt</button>
+                <button type="button" link="pochowki.php" class="link btn btn-primary">Pochówki</button>
+                <button type="button" link="szukaj.php" class="link btn btn-primary">Wyszukaj w bazie</button>
                 <?PHP session_start();
                 if (isset ($_SESSION ['login'] ) ) {?> <button type="button" link="logout.php" class="link btn btn-primary"> <i class="bi bi-unlock-fill"></i> Wyloguj się</button> <?PHP   }
                 else{   ?> <button type="button" link="logowanie.php" class="link btn btn-primary"> <i class="bi bi-lock-fill"></i> Zaloguj się</button> <?PHP   } ?>
@@ -50,6 +50,7 @@
     </div>
 
     <!-- Notka na końcu strony -->
+    <br>
     <div class="row text bg-light" id="footer">
         <div class="col-md-12">(c) FJ 2025 All Rights Reserved</div>
     </div>

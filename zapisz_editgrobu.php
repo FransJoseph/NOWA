@@ -12,10 +12,10 @@ if ($conn->connect_error) {
     die("Błąd połączenia z bazą danych: " . $conn->connect_error);
 }
 
-$zapytanie = "UPDATE `groby` SET `lokalizacja` = '$lokalizacja', `rodzaj` = '$rodzaj', `oplata` = '$oplata', `notka` = '$notka' WHERE `groby`.`id` = $id;";
-
-
-$result = $conn->query($zapytanie);
+$stmt = $conn->prepare("UPDATE `groby` SET `lokalizacja` = ?, `rodzaj` = ?, `oplata` = ?, `notka` = ? WHERE `id` = ?");
+$stmt->bind_param("ssssi", $lokalizacja, $rodzaj, $oplata, $notka, $id);
+$stmt->execute();
+$stmt->close();
 
 $conn->close();
 ?>

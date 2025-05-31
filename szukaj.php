@@ -1,0 +1,115 @@
+<?php
+include 'dbconfig.php';
+
+$search = $_GET['q'] ?? '';
+
+$conn = new mysqli($server, $user, $password, $dbname);
+if ($conn->connect_error) {
+    die("Błąd połączenia z bazą danych: " . $conn->connect_error);
+}
+
+$searchEscaped = "%" . mb_strtolower($conn->real_escape_string($search), 'UTF-8') . "%";
+
+$sql = "
+    SELECT 
+        pochowki.id AS pochowek_id,
+        zmarli.imie,
+        zmarli.nazwisko,
+        zmarli.data_urodzenia,
+        zmarli.data_smierci,
+        zmarli.notka AS notka_zmarlego,
+        groby.lokalizacja,
+        groby.rodzaj,
+        groby.oplata,
+        groby.notka AS notka_grobu,
+        pochowki.data_pochowku,
+        pochowki.rodzaj_pochowku,
+        pochowki.notka_pochowku
+    FROM pochowki
+    JOIN zmarli ON pochowki.id_zmarly = zmarli.id
+    JOIN groby ON pochowki.id_grob = groby.id
+    WHERE
+        LOWER(zmarli.imie) COLLATE utf8mb4_general_ci LIKE ? OR
+        LOWER(zmarli.nazwisko) COLLATE utf8mb4_general_ci LIKE ? OR
+        LOWER(zmarli.notka) COLLATE utf8mb4_general_ci LIKE ? OR
+        DATE_FORMAT(zmarli.data_urodzenia, '%Y-%m-%d') LIKE ? OR
+        DATE_FORMAT(zmarli.data_smierci, '%Y-%m-%d') LIKE ? OR
+        LOWER(groby.lokalizacja) COLLATE utf8mb4_general_ci LIKE ? OR
+        LOWER(groby.rodzaj) COLLATE utf8mb4_general_ci LIKE ? OR
+        CAST(groby.oplata AS CHAR) LIKE ? OR
+        LOWER(groby.notka) COLLATE utf8mb4_general_ci LIKE ? OR
+        LOWER(pochowki.rodzaj_pochowku) COLLATE utf8mb4_general_ci LIKE ? OR
+        DATE_FORMAT(pochowki.data_pochowku, '%Y-%m-%d') LIKE ? OR
+        LOWER(pochowki.notka_pochowku) COLLATE utf8mb4_general_ci LIKE ?
+    ORDER BY pochowki.id DESC
+";
+
+$stmt = $conn->prepare($sql);
+$params = array_fill(0, 12, $searchEscaped);
+$stmt->bind_param(str_repeat("s", 12), ...$params);
+$stmt->execute();
+$result = $stmt->get_result();
+?>
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Wyszukiwanie</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="p-4">
+
+<h2>Szukaj</h2>
+
+<form method="GET" action="szukaj.php" class="mb-3">
+    <input type="text" name="q" class="form-control mb-2" placeholder="Wpisz imię, nazwisko, lokalizację, datę, notkę itd." value="<?php echo htmlspecialchars($search); ?>">
+
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary">Szukaj</button>
+        <a href="index.php" class="btn btn-secondary">Powrót</a>
+    </div>
+</form>
+
+<p>
+
+<?php
+if ($result->num_rows > 0) {
+    echo "<table class='table table-striped'>";
+    echo "<thead><tr>
+            <th>#</th><th>Imię</th><th>Nazwisko</th><th>Data ur.</th><th>Data śm.</th><th>Notka zmarłego</th>
+            <th>Lokalizacja</th><th>Rodzaj grobu</th><th>Opłata</th><th>Notka grobu</th>
+            <th>Data pochówku</th><th>Rodzaj poch.</th><th>Notka pochówku</th>
+          </tr></thead><tbody>";
+
+    $i = 1;
+    while ($row = $result->fetch_assoc()) {
+        echo "<tr>
+            <td>{$i}</td>
+            <td>{$row['imie']}</td>
+            <td>{$row['nazwisko']}</td>
+            <td>{$row['data_urodzenia']}</td>
+            <td>{$row['data_smierci']}</td>
+            <td>{$row['notka_zmarlego']}</td>
+            <td>{$row['lokalizacja']}</td>
+            <td>{$row['rodzaj']}</td>
+            <td>{$row['oplata']}</td>
+            <td>{$row['notka_grobu']}</td>
+            <td>{$row['data_pochowku']}</td>
+            <td>{$row['rodzaj_pochowku']}</td>
+            <td>{$row['notka_pochowku']}</td>
+        </tr>";
+        $i++;
+    }
+
+    echo "</tbody></table>";
+} else {
+    echo "<p>Brak wyników dla podanego zapytania.</p>";
+}
+
+$stmt->close();
+$conn->close();
+?>
+
+</body>
+</html>
