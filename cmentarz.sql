@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Maj 26, 2025 at 10:45 AM
+-- Generation Time: Cze 01, 2025 at 10:59 PM
 -- Wersja serwera: 10.4.32-MariaDB
 -- Wersja PHP: 8.2.12
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `groby` (
   `id` int(5) NOT NULL,
   `lokalizacja` text NOT NULL,
-  `rodzaj` varchar(20) NOT NULL,
+  `rodzaj` varchar(20) DEFAULT NULL,
   `oplata` varchar(20) NOT NULL,
   `notka` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
@@ -40,29 +40,13 @@ CREATE TABLE `groby` (
 --
 
 INSERT INTO `groby` (`id`, `lokalizacja`, `rodzaj`, `oplata`, `notka`) VALUES
-(1, 'Północna', 'grób rodzinny', 'TAK', 'Do pogrzebania Poland2k50 Sz Grobowni'),
-(8, 'Plac Cyrwony', 'pomnik', 'NIE', 'Nie musi płacić - to państwowe (co jak przyjdą czerwoni???)');
-
--- --------------------------------------------------------
-
---
--- Struktura tabeli dla tabeli `klienci`
---
-
-CREATE TABLE `klienci` (
-  `id` int(11) NOT NULL,
-  `nazwa` varchar(50) NOT NULL,
-  `adres` varchar(100) NOT NULL,
-  `opis` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
-
---
--- Dumping data for table `klienci`
---
-
-INSERT INTO `klienci` (`id`, `nazwa`, `adres`, `opis`) VALUES
-(1, 'Żabka', 'ul. Las 1, 32-600 Tychy', NULL),
-(4, 'ABC Oświęcim', 'ABC Oświęcim', 'fajna firma, dawać rabaty.   \r\n        ');
+(14, 'Północ', '', 'NIE', 'W trakcie likwidacji'),
+(15, 'Wawer', 'grobowiec', 'TAK', 'Grzegorz (id 3) jest pochowany gdzie indziej'),
+(16, 'Wawel', 'kolumbarium', 'TAK', ''),
+(17, 'Północ', 'inny', 'NIE', 'Plakietka likwidacyjna'),
+(18, 'Wawer', 'pomnik', 'TAK', 'Pomnik - w czysto lokalnej definicji'),
+(19, 'Babel', 'ziemny', 'TAK', ''),
+(20, 'Południe', 'ziemny', 'NIE', 'Opuszczony grób - brak tabliczki');
 
 -- --------------------------------------------------------
 
@@ -85,7 +69,7 @@ CREATE TABLE `operatorzy` (
 --
 
 INSERT INTO `operatorzy` (`id`, `login`, `haslo`, `imie`, `nazwisko`, `email`, `status`) VALUES
-(1, 'admin', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Adam', 'Administracyjny', 'admin@serwer.pl', 1);
+(1, 'admin', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Tomasz', 'Organista', 'admin@serwer.pl', 1);
 
 -- --------------------------------------------------------
 
@@ -95,46 +79,25 @@ INSERT INTO `operatorzy` (`id`, `login`, `haslo`, `imie`, `nazwisko`, `email`, `
 
 CREATE TABLE `pochowki` (
   `id` int(5) NOT NULL,
-  `id_osoby` int(5) NOT NULL,
-  `id_grobu` int(5) NOT NULL,
+  `id_zmarly` int(5) NOT NULL,
+  `id_grob` int(5) NOT NULL,
   `data_pochowku` date DEFAULT NULL,
   `rodzaj_pochowku` varchar(20) DEFAULT NULL,
   `notka_pochowku` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
--- --------------------------------------------------------
-
 --
--- Struktura tabeli dla tabeli `towary`
+-- Dumping data for table `pochowki`
 --
 
-CREATE TABLE `towary` (
-  `id` int(11) NOT NULL,
-  `nazwa` varchar(50) NOT NULL,
-  `ilosc` int(11) NOT NULL,
-  `jm` varchar(5) NOT NULL,
-  `cena` float NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
-
---
--- Dumping data for table `towary`
---
-
-INSERT INTO `towary` (`id`, `nazwa`, `ilosc`, `jm`, `cena`) VALUES
-(1, 'Rezystor', 10, 'szt.', 123),
-(2, 'Rezystor', 100, 'szt.', 12.05),
-(3, 'towar1', 0, 'm', 0),
-(4, 'test123', 0, 'cm', 0),
-(5, 'aaaaaaaaaaa', 0, 'cm', 0),
-(6, 'aaaa', 0, 'm', 0),
-(7, 'aaaa', 0, 'm', 0),
-(8, 'aaaa', 0, 'm', 0),
-(9, 'aaaa', 0, 'm', 0),
-(10, 'aaaa', 0, 'm', 0),
-(11, 'aaaa', 0, 'm', 0),
-(12, 'sssssssss', 1111, 'm', 1.11),
-(13, '', 0, '', 0),
-(14, '', 0, '', 0);
+INSERT INTO `pochowki` (`id`, `id_zmarly`, `id_grob`, `data_pochowku`, `rodzaj_pochowku`, `notka_pochowku`) VALUES
+(31, 28, 15, '2008-04-23', 'trumna', ''),
+(32, 29, 15, '1995-10-14', 'trumna', ''),
+(33, 27, 16, '2003-12-19', 'urna', 'Pierwszy pochówek w kolumbarium'),
+(34, 25, 14, NULL, '', 'Pochówek najpóźniej z lat 60\''),
+(36, 22, 17, '1957-10-07', 'trumna', ''),
+(37, 23, 18, '1997-06-18', 'trumna', ''),
+(38, 26, 14, '1994-06-17', 'trumna', 'Tak naprawdę nie dożył 60tki - stąd brak daty urodzin');
 
 -- --------------------------------------------------------
 
@@ -145,7 +108,7 @@ INSERT INTO `towary` (`id`, `nazwa`, `ilosc`, `jm`, `cena`) VALUES
 CREATE TABLE `zmarli` (
   `id` int(5) NOT NULL,
   `imie` varchar(50) DEFAULT NULL,
-  `nazwisko` varchar(50) DEFAULT NULL,
+  `nazwisko` varchar(50) NOT NULL,
   `data_urodzenia` date DEFAULT NULL,
   `data_smierci` date DEFAULT NULL,
   `notka` text DEFAULT NULL
@@ -156,8 +119,14 @@ CREATE TABLE `zmarli` (
 --
 
 INSERT INTO `zmarli` (`id`, `imie`, `nazwisko`, `data_urodzenia`, `data_smierci`, `notka`) VALUES
-(1, 'Adolf', 'Hitler', '2025-05-06', '2025-05-16', 'Akta tajne'),
-(12, 'Józef', 'Dżugaszfili-Stalin', '1111-11-11', '1111-11-11', 'Przeniesiony');
+(22, 'Anastazja', 'Bąk', '1865-06-14', '1957-10-04', ''),
+(23, 'Tomisław', 'Gąsienica', '1969-07-22', '1997-06-18', ''),
+(24, 'Grzegorz', 'Brzęczyszczykiewicz', '1890-04-02', '1949-11-10', 'Pochowany na cmentarzu w Chrząszczy-Grzeborzycach, wpisany na jednym z grobów rodzinnych'),
+(25, '', 'Bednarz', NULL, NULL, 'Imię nieczytelne'),
+(26, 'Józef', 'Barykadowicz', NULL, '1994-06-14', 'Żył kopę lat'),
+(27, 'Marzena', 'Warzała', '1949-04-10', '2003-12-16', 'Czytaj \"War-zała\"'),
+(28, 'Ula', 'Lenartowicz', '1949-03-01', '2008-04-19', ''),
+(29, 'Łużyn', 'Lenartowicz', '1940-09-02', '1995-10-11', '');
 
 --
 -- Indeksy dla zrzutów tabel
@@ -167,12 +136,6 @@ INSERT INTO `zmarli` (`id`, `imie`, `nazwisko`, `data_urodzenia`, `data_smierci`
 -- Indeksy dla tabeli `groby`
 --
 ALTER TABLE `groby`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indeksy dla tabeli `klienci`
---
-ALTER TABLE `klienci`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -186,14 +149,8 @@ ALTER TABLE `operatorzy`
 --
 ALTER TABLE `pochowki`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id osoby` (`id_osoby`,`id_grobu`),
-  ADD KEY `id grobu` (`id_grobu`);
-
---
--- Indeksy dla tabeli `towary`
---
-ALTER TABLE `towary`
-  ADD PRIMARY KEY (`id`);
+  ADD KEY `id osoby` (`id_zmarly`,`id_grob`),
+  ADD KEY `id_grob` (`id_grob`);
 
 --
 -- Indeksy dla tabeli `zmarli`
@@ -209,13 +166,7 @@ ALTER TABLE `zmarli`
 -- AUTO_INCREMENT for table `groby`
 --
 ALTER TABLE `groby`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT for table `klienci`
---
-ALTER TABLE `klienci`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `operatorzy`
@@ -227,19 +178,13 @@ ALTER TABLE `operatorzy`
 -- AUTO_INCREMENT for table `pochowki`
 --
 ALTER TABLE `pochowki`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
---
--- AUTO_INCREMENT for table `towary`
---
-ALTER TABLE `towary`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `zmarli`
 --
 ALTER TABLE `zmarli`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- Constraints for dumped tables
@@ -249,8 +194,8 @@ ALTER TABLE `zmarli`
 -- Constraints for table `pochowki`
 --
 ALTER TABLE `pochowki`
-  ADD CONSTRAINT `pochowki_ibfk_1` FOREIGN KEY (`id_osoby`) REFERENCES `zmarli` (`id`),
-  ADD CONSTRAINT `pochowki_ibfk_2` FOREIGN KEY (`id_grobu`) REFERENCES `groby` (`id`);
+  ADD CONSTRAINT `pochowki_ibfk_1` FOREIGN KEY (`id_zmarly`) REFERENCES `zmarli` (`id`),
+  ADD CONSTRAINT `pochowki_ibfk_2` FOREIGN KEY (`id_grob`) REFERENCES `groby` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
