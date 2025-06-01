@@ -59,6 +59,7 @@ session_start();
         </div>
 
         <button type="submit" class="btn btn-primary">Dodaj zmarłego</button>
+        <button type="reset" class="btn btn-secondary">Resetuj</button>
 
     </form>
 

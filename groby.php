@@ -45,12 +45,15 @@ session_start(); ?>
         </div>
 
         <button type="submit" class="btn btn-primary">Dodaj grób</button>
+        <button type="reset" class="btn btn-secondary">Resetuj</button>
 
     </form>
 
 <?php } else {
     echo "<h3>Nie masz uprawnień do dodawania grobów</h3>";
 } ?>
+
+<p>
 
 <h2>Groby</h2>
 

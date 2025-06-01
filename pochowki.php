@@ -72,6 +72,8 @@ session_start();
         <textarea class="form-control" id="notka_pochowku" name="notka_pochowku" placeholder="Informacja czy to ekshumacja, wyjaśnienia nieścisłości etc." rows="3"></textarea><br>
 
         <button type="submit" class="btn btn-primary">Powiąż</button>
+        <button type="reset" class="btn btn-secondary">Resetuj</button>
+
     </form>
 
 <?php } else {
@@ -80,7 +82,7 @@ session_start();
 
 <p>
 
-<h4>Baza:</h4>
+<h2>Baza</h2>
 
 <table class="table table-hover table-sm">
     <thead class="align-middle">
