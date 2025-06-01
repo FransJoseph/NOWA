@@ -6,6 +6,8 @@ $conn = new mysqli($server, $user, $password, $dbname);
 if ($conn->connect_error) die("Błąd połączenia z bazą danych: " . $conn->connect_error);
 ?>
 
+<link rel="stylesheet" href="style.css">
+
 <?php if (isset($_SESSION['login'])) { ?>
 
     <h2>Dodaj nowy pochówek</h2>
@@ -80,15 +82,18 @@ if ($conn->connect_error) die("Błąd połączenia z bazą danych: " . $conn->co
 
     </form>
 
-<?php } else {
-    echo "<h3>Nie masz uprawnień do dodawania pochówków</h3>";
-} ?>
+<?php } else { ?>
+<p>
+<h3 class="alert alert-warning">Nie masz uprawnień do dodawania pochówków</h3>
+<p>
+<?php } ?>
 
 <p>
 
 <h2>Baza</h2>
 
-<table class="table table-hover table-sm">
+<table class="table table-hover table-sm table-striped bg-white mx-auto" style="max-width: 100%;">
+
     <thead class="align-middle">
     <tr>
         <th>#</th>
@@ -106,7 +111,7 @@ if ($conn->connect_error) die("Błąd połączenia z bazą danych: " . $conn->co
         <th title="Data pochówku">Data p.</th>
         <th title="Rodzaj pochówku">Rodzaj p.</th>
         <th>Notka pochówku</th>
-        <th>Akcje</th>
+        <th class="text-right pr-4">Akcje</th>
     </tr>
     </thead>
 
@@ -154,7 +159,7 @@ if ($conn->connect_error) die("Błąd połączenia z bazą danych: " . $conn->co
             echo "<td>" . htmlspecialchars($row["data_pochowku"]) . "</td>";
             echo "<td>" . htmlspecialchars($row["rodzaj_pochowku"]) . "</td>";
             echo "<td>" . htmlspecialchars($row["notka_pochowku"]) . "</td>";
-            echo "<td>";
+            echo "<td class='text-right'>";
             if (isset($_SESSION['login'])) {
                 echo "<a class='btn btn-warning btn-sm' style='margin-right: 4px;' href='editpochowki.php?id=" . htmlspecialchars($row["pochowek_id"]) . "' title='Edytuj'><i class='bi bi-pencil-square'></i></a>";
                 echo "<a class='btn btn-danger btn-sm' href='delpochowki.php?id=" . htmlspecialchars($row["pochowek_id"]) . "' title='Usuń'><i class='bi bi-x-circle'></i></a>";

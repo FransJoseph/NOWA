@@ -11,7 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="style.css">
     <script type="text/javascript" src="app.js" defer></script>
 
     <title>Wykaz Cmentarza</title>
@@ -20,13 +20,15 @@
 <!-- Strona -->
 <body class="d-flex flex-column min-vh-120">
 
+<!-- Tytuł -->
+<div class="jumbotron text-center w-100 m-0 rounded-0">
+    <h1 class="display-4">Wykaz Cmentarza</h1>
+</div>
+
 <!-- Kontener zawężający stronę -->
 <div class="container-fluid d-flex flex-column min-vh-100">
 
-    <!-- Tytuł -->
-    <div class="jumbotron text-center">
-        <h1>Wykaz Cmentarza</h1>
-    </div>
+    <p>
 
     <!-- Przyciski -->
     <div class="row text-center" id="menu">
@@ -51,15 +53,16 @@
         </div>
     </div>
 
-    <div id="main" class="flex-grow-1">
-        <h2>Strona główna</h2>
-        <p>Witamy na stronie cmentarza</p>
-    </div>
+    <p>
+
+    <main id="main" class="flex-grow-1 container-fluid px-4" style="overflow-x: auto;">
+        <h2 style="font-weight: bold; font-size: 2.5rem; text-align: center;">Witamy na stronie cmentarza</h2>
+    </main>
 
     <!-- Notka na końcu strony -->
     <br>
     <div class="row text bg-light" id="footer">
-        <div class="col-md-12">(c) FJ 2025 All Rights Reserved</div>
+        <div class="col-md-12">(c) Frans Joseph PL 2025 All Rights Reserved</div>
     </div>
 
 </div> <!-- Koniec funkcjonalnej strony (kontenera) -->

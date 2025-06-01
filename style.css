@@ -1,9 +1,11 @@
-.date-toggle-container {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;      /* Większa przerwa między grupami */
-    margin-bottom: 1rem;
-    flex-wrap: nowrap; /* Brak zawijania do kolejnej linii */
+body {
+    background-image: url('tlo.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    min-height: 100vh;
+    margin: 0;
+    color: #ffffff;
 }
 
 .date-toggle-group {
@@ -15,24 +17,9 @@
 
 /* Powiększone checkboxy */
 .form-check-input {
-    width: 1.8em;     /* większa szerokość */
-    height: 1.8em;    /* większa wysokość */
+    width: 1.25em;     /* większa szerokość */
+    height: 1.25em;    /* większa wysokość */
     cursor: pointer;
-}
-
-/* Dopasowanie label i input w date-toggle-group */
-.date-toggle-group label {
-    margin-bottom: 0;
-    cursor: pointer;
-    white-space: nowrap;
-}
-
-/* Pola wyboru dat — wyrównanie wysokości i szerokości */
-.date-toggle-group input[type="date"] {
-    width: 160px;     /* lekko szersze niż 150px */
-    height: 2.2em;    /* trochę wyższe dla lepszej czytelności */
-    padding: 0.25em 0.4em;
-    box-sizing: border-box;
 }
 
 /* Zapewnienie, że etykiety i inputy są wyśrodkowane pionowo */
@@ -41,7 +28,12 @@
     align-items: center;
 }
 
-/* Usuwanie nadmiernego marginesu pod labelami */
-.form-group label {
-    margin-bottom: 0.2rem;
+h1 {
+    color: #272632 !important;
+    font-weight: bold !important;
+    font-size: 6rem !important;
+}
+
+#footer {
+    color: #0b0e23; /* kolor tekstu na czerwony */
 }

@@ -10,6 +10,7 @@ session_start();
     <title>Groby</title>
     <link rel="stylesheet" href="path_to_bootstrap.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -59,12 +60,16 @@ session_start();
     </form>
 
 <?php } else { ?>
-    <h3>Nie masz uprawnień do dodawania grobów</h3>
+<p>
+<h3 class="alert alert-warning">Nie masz uprawnień do dodawania grobów</h3>
+<p>
 <?php } ?>
+
+<p>
 
 <h2>Groby</h2>
 
-<table class="table table-hover table-sm">
+<table class="table table-hover table-sm table-striped bg-white">
     <thead>
     <tr>
         <th>#</th>
@@ -72,7 +77,7 @@ session_start();
         <th>Rodzaj</th>
         <th>Opłata</th>
         <th>Notka</th>
-        <th>Akcje</th>
+        <th class="text-right pr-4">Akcje</th>
     </tr>
     </thead>
     <tbody>
@@ -94,7 +99,7 @@ session_start();
             echo "<td>" . htmlspecialchars($row["rodzaj"]) . "</td>";
             echo "<td>" . htmlspecialchars($row["oplata"]) . "</td>";
             echo "<td>" . htmlspecialchars($row["notka"]) . "</td>";
-            echo "<td>";
+            echo "<td class='text-right'>";
             if (isset($_SESSION['login'])) {
                 echo "<a class='btn btn-warning btn-sm me-1' style='margin-right: 4px;' href='editgroby.php?id=" . urlencode($row["id"]) . "' title='Edytuj'> <i class='bi bi-pencil-square'></i> </a>";
                 echo "<a class='btn btn-danger btn-sm' href='delgroby.php?id=" . urlencode($row["id"]) . "' title='Usuń' onclick=\"return confirm('Czy na pewno chcesz usunąć ten grób?');\"> <i class='bi bi-x-circle'></i> </a>";

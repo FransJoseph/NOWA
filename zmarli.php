@@ -13,6 +13,7 @@ session_start();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="app.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body class="p-4">
 
@@ -63,12 +64,15 @@ session_start();
     </form>
 
 <?php else: ?>
-    <h3>Nie masz uprawnień do dodawania zmarłych</h3>
+<p>
+<h3 class="alert alert-warning">Nie masz uprawnień do dodawania zmarłych</h3>
+<p>
 <?php endif; ?>
 
 <h2>Zmarli</h2>
 
-<table class="table table-hover table-sm">
+<table class="table table-hover table-sm table-striped">
+
     <thead class="table-light">
     <tr>
         <th>#</th>
@@ -77,7 +81,7 @@ session_start();
         <th>Data urodzenia</th>
         <th>Data śmierci</th>
         <th>Notka</th>
-        <th>Akcje</th>
+        <th class="text-right pr-4">Akcje</th>
     </tr>
     </thead>
 
@@ -108,7 +112,7 @@ session_start();
                 <td><?= $data_urodzenia ?></td>
                 <td><?= $data_smierci ?></td>
                 <td><?= $notka ?></td>
-                <td>
+                <td class='text-right'>
                     <?php if (isset($_SESSION['login'])): ?>
                         <a class="btn btn-warning btn-sm" style="margin-right: 4px;" href="editzmarli.php?id=<?= htmlspecialchars($row['id']) ?>" title="Edytuj"><i class="bi bi-pencil-square"></i></a><a class="btn btn-danger btn-sm" href="delzmarli.php?id=<?= htmlspecialchars($row['id']) ?>" title="Usuń" onclick="return confirm('Czy na pewno chcesz usunąć tego zmarłego?');"><i class="bi bi-x-circle"></i></a>
                     <?php endif; ?>
