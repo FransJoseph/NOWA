@@ -19,7 +19,7 @@ session_start();
             $result = $conn->query($zapytanie);
 
             while ($row = $result->fetch_assoc()) {
-                echo "<option value='".$row['id']."'>".$row['imie']." [".$row['nazwisko']."] [".$row['data_urodzenia']."] [".$row['data_smierci']."] [".$row['notka']."]</option>\n";
+                echo "<option value='".$row['id']."'>[".$row['imie']."] [".$row['nazwisko']."] [".$row['data_urodzenia']."] [".$row['data_smierci']."] [".$row['notka']."]</option>\n";
             }
 
             $conn->close();
@@ -36,7 +36,7 @@ session_start();
             $result = $conn->query($zapytanie);
 
             while ($row = $result->fetch_assoc()) {
-                echo "<option value='".$row['id']."'>".$row['lokalizacja']." [".$row['rodzaj']."] [".$row['oplata']."] [".$row['notka']."]</option>\n";
+                echo "<option value='".$row['id']."'>[".$row['lokalizacja']."] [".$row['rodzaj']."] [".$row['oplata']."] [".$row['notka']."]</option>\n";
             }
 
             $conn->close();
@@ -44,12 +44,27 @@ session_start();
         </select><br>
 
         <p>Data pochówku:</p>
-        <input type="date" class="form-control" id="data_pochowku" name="data_pochowku" required><br>
+        <input type="date" class="form-control" id="data_pochowku" name="data_pochowku" style="width: 150px;">
+        <br>
+        <input type="checkbox" name="brak_daty" id="brak_daty" onchange="toggleDateInput()">
+        <label for="brak_daty">Nieznana data pochówku</label>
+
+        <script>
+            function toggleDateInput() {
+                const checkbox = document.getElementById('brak_daty');
+                const dateInput = document.getElementById('data_pochowku');
+                dateInput.disabled = checkbox.checked;
+                if (checkbox.checked) {
+                    dateInput.value = "";
+                }
+            }
+        </script>
+
 
         <p>Rodzaj pochówku:</p>
-        <input list="rodzaj_pochowku" name="rodzaj_pochowku" class="form-control" placeholder="Wybierz z listy" required>
+        <input list="rodzaj_pochowku" name="rodzaj_pochowku" class="form-control" style="width: 150px;" placeholder="Wybierz z listy" required>
         <datalist id="rodzaj_pochowku">
-            <option value="ziemny">
+            <option value="trumna">
             <option value="urna">
         </datalist><br>
 
@@ -79,10 +94,11 @@ session_start();
         <th title="Data śmierci">Data śm.</th>
         <th>Notka zmarłego</th>
         <th>Lokalizacja</th>
-        <th>Rodzaj</th>
+        <th>Rodzaj grobu</th>
         <th>Opłata</th>
         <th>Notka grobu</th>
         <th title="Data pochówku">Data p.</th>
+        <th title="Data pochówku">Rodzaj p.</th>
         <th>Notka pochówku</th>
         <th>Akcje</th>
     </tr>
@@ -121,7 +137,7 @@ session_start();
     if ($result->num_rows > 0) {
         $licznik = 1;
         while ($row = $result->fetch_assoc()) {
-            echo "<tr><td>" . $licznik++ . "</td><td>" . $row["zmarly_id"] . "</td><td>" . $row["grob_id"] . "</td><td>" . $row["imie"] . "</td><td>" . $row["nazwisko"] . "</td><td>" . $row["data_urodzenia"] . "</td><td>" . $row["data_smierci"] . "</td><td>" . $row["notka_zmarlego"] . "</td><td>" . $row["lokalizacja"] . "</td><td>" . $row["rodzaj"] . "</td><td>" . $row["oplata"] . "</td><td>" . $row["notka_grobu"] . "</td><td>" . $row["data_pochowku"] . "</td><td>" . $row["notka_pochowku"] . "</td>";
+            echo "<tr><td>" . $licznik++ . "</td><td>" . $row["zmarly_id"] . "</td><td>" . $row["grob_id"] . "</td><td>" . $row["imie"] . "</td><td>" . $row["nazwisko"] . "</td><td>" . $row["data_urodzenia"] . "</td><td>" . $row["data_smierci"] . "</td><td>" . $row["notka_zmarlego"] . "</td><td>" . $row["lokalizacja"] . "</td><td>" . $row["rodzaj"] . "</td><td>" . $row["oplata"] . "</td><td>" . $row["notka_grobu"] . "</td><td>" . $row["data_pochowku"] . "</td><td>" . $row["rodzaj_pochowku"] . "</td><td>" . $row["notka_pochowku"] . "</td>";
             echo "<td>";
             if (isset($_SESSION['login'])) {
                 echo "<a class='btn btn-warning btn-sm' style='margin-right: 4px;' href='editpochowki.php?id=" . $row["pochowek_id"] . "' title='Edytuj'><i class='bi bi-pencil-square'></i></a>";

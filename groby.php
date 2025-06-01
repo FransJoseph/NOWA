@@ -19,23 +19,25 @@ session_start(); ?>
             </label>
             <datalist id="rodzaj">
                 <option value="ziemny">
+                <option value="grobowiec">
                 <option value="pomnik">
-                <option value="grób rodzinny">
-                <option value="grób dziecka">
+                <option value="kolumbarium">
                 <option value="inny">
             </datalist>
         </div>
 
         <div class="form-group">
-            <label for="oplata">Opłata</label>
-            <label>
-                <input list="oplata" name="oplata" placeholder="Wybierz z listy" required>
-            </label>
-            <datalist id="oplata">
-                <option value="TAK">
-                <option value="NIE">
-            </datalist>
+            <label>Opłata</label><br>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="oplata" value="TAK" id="oplata_tak" required>
+                <label class="form-check-label" for="oplata_tak">TAK</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="oplata" value="NIE" id="oplata_nie" required>
+                <label class="form-check-label" for="oplata_nie">NIE</label>
+            </div>
         </div>
+
 
         <div class="form-group">
             <label for="notka">Notka (niewymagana)</label>

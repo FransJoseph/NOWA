@@ -19,7 +19,6 @@ if ($result->num_rows > 0) {
     <h2>Edycja pochówku</h2>
 
     <form method="POST" id="powiaz-form" action="zapisz_editpochowku.php">
-
         <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
 
         <div class="form-group">
@@ -29,7 +28,7 @@ if ($result->num_rows > 0) {
                 $zmarli = $conn->query("SELECT id, imie, nazwisko FROM zmarli");
                 while ($z = $zmarli->fetch_assoc()) {
                     $selected = ($z['id'] == $row['id_zmarly']) ? "selected" : "";
-                    echo "<option value='{$z['id']}' $selected>{$z['imie']} {$z['nazwisko']}</option>";
+                    echo "<option value='{$z['id']}' $selected>" . htmlspecialchars($z['imie'] . ' ' . $z['nazwisko']) . "</option>";
                 }
                 ?>
             </select>
@@ -42,32 +41,44 @@ if ($result->num_rows > 0) {
                 $groby = $conn->query("SELECT id, lokalizacja FROM groby");
                 while ($g = $groby->fetch_assoc()) {
                     $selected = ($g['id'] == $row['id_grob']) ? "selected" : "";
-                    echo "<option value='{$g['id']}' $selected>{$g['lokalizacja']}</option>";
+                    echo "<option value='{$g['id']}' $selected>" . htmlspecialchars($g['lokalizacja']) . "</option>";
                 }
                 ?>
             </select>
         </div>
 
+        <?php
+        $isNullDate = is_null($row['data_pochowku']);
+        $dataValue = $isNullDate ? '' : $row['data_pochowku'];
+        $checkedAttr = $isNullDate ? 'checked' : '';
+        ?>
+
         <div class="form-group">
             <label for="data_pochowku">Data pochówku:</label>
-            <input type="date" name="data_pochowku" class="form-control" value="<?php echo $row['data_pochowku']; ?>" required>
+            <input type="date" class="form-control" id="data_pochowku" name="data_pochowku"
+                   value="<?php echo htmlspecialchars($dataValue); ?>" style="width: 150px;">
+            <br>
+            <input type="checkbox" name="brak_daty" id="brak_daty" <?php echo $checkedAttr; ?>>
+            <label for="brak_daty">Nieznana data pochówku</label>
         </div>
 
         <div class="form-group">
             <label for="rodzaj_pochowku">Rodzaj pochówku:</label>
-            <input list="rodzaje" name="rodzaj_pochowku" class="form-control" value="<?php echo $row['rodzaj_pochowku']; ?>" required>
+            <input list="rodzaje" name="rodzaj_pochowku" class="form-control" value="<?php echo htmlspecialchars($row['rodzaj_pochowku']); ?>" required>
             <datalist id="rodzaje">
-                <option value="ziemny">
+                <option value="trumna">
                 <option value="urna">
             </datalist>
         </div>
 
         <div class="form-group">
             <label for="notka_pochowku">Notka:</label>
-            <input type="text" name="notka_pochowku" class="form-control" value="<?php echo $row['notka_pochowku']; ?>">
+            <input type="text" name="notka_pochowku" class="form-control" value="<?php echo htmlspecialchars($row['notka_pochowku']); ?>">
         </div>
 
-        <p> <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+        <p>
+            <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+        </p>
     </form>
 
     <?php

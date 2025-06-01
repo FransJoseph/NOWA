@@ -1,32 +1,28 @@
 <?php
 include 'dbconfig.php';
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $id = intval($_POST['id']);
-    $id_zmarly = intval($_POST['id_zmarly']);
-    $id_grob = intval($_POST['id_grob']);
-    $data_pochowku = $_POST['data_pochowku'];
-    $rodzaj_pochowku = $_POST['rodzaj_pochowku'];
-    $notka_pochowku = $_POST['notka_pochowku'];
+$id = $_POST['id'];
+$id_zmarly = $_POST['id_zmarly'];
+$id_grob = $_POST['id_grob'];
+$rodzaj_pochowku = $_POST['rodzaj_pochowku'];
+$notka_pochowku = $_POST['notka_pochowku'];
 
-    $conn = new mysqli($server, $user, $password, $dbname);
-    if ($conn->connect_error) {
-        die("Błąd połączenia z bazą danych: " . $conn->connect_error);
-    }
+$data_pochowku = isset($_POST['brak_daty']) ? null : $_POST['data_pochowku'];
 
-    $stmt = $conn->prepare("UPDATE pochowki SET id_zmarly=?, id_grob=?, data_pochowku=?, rodzaj_pochowku=?, notka_pochowku=? WHERE id=?");
-    $stmt->bind_param("iisssi", $id_zmarly, $id_grob, $data_pochowku, $rodzaj_pochowku, $notka_pochowku, $id);
-
-    if ($stmt->execute()) {
-        echo "Powiązno pomyślnie. Zapisywanie...";
-        //header("Location: index.php");
-    } else {
-        echo "Błąd podczas zapisu: " . $stmt->error;
-    }
-
-    $stmt->close();
-    $conn->close();
+$conn = new mysqli($server, $user, $password, $dbname);
+if ($conn->connect_error) {
+    die("Błąd połączenia z BD: " . $conn->connect_error);
 }
+
+$stmt = $conn->prepare("UPDATE pochowki SET id_zmarly=?, id_grob=?, data_pochowku=?, rodzaj_pochowku=?, notka_pochowku=? WHERE id=?");
+$stmt->bind_param("iisssi", $id_zmarly, $id_grob, $data_pochowku, $rodzaj_pochowku, $notka_pochowku, $id);
+
+if (!$stmt->execute()) {
+    echo "Błąd zapisu: " . $stmt->error;
+}
+
+$stmt->close();
+$conn->close();
 ?>
 
 <html lang="pl">

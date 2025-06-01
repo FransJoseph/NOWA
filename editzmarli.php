@@ -1,64 +1,70 @@
 <?php
-        include 'dbconfig.php';
-        session_start();
-        $id=$_GET['id'];
-        $conn = new mysqli($server, $user, $password, $dbname);
-        if ($conn->connect_error) {
-            die("Błąd połączenia z bazą danych: " . $conn->connect_error);
-        }
+include 'dbconfig.php';
+session_start();
 
-        $zapytanie = "SELECT * FROM zmarli WHERE `zmarli`.`id` = $id LIMIT 1;";
+if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
+    die("Nieprawidłowy ID");
+}
 
-        $result = $conn->query($zapytanie);
+$id = (int)$_GET['id'];
 
-        if ($result->num_rows > 0) {
-           
-            while ($row = $result->fetch_assoc()) {  //$row["nazwa"]
-               
-          ?>
+$conn = new mysqli($server, $user, $password, $dbname);
+if ($conn->connect_error) {
+    die("Błąd połączenia z bazą danych: " . $conn->connect_error);
+}
 
-<h2>Edycja zmarłego</h2>
+$zapytanie = "SELECT * FROM zmarli WHERE id = $id LIMIT 1";
+$result = $conn->query($zapytanie);
 
-<form action="zapisz_editzmarlego.php" method="post">
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
 
-    <div class="form-group">
-        <input type="text" name="id" value="<?PHP echo $row['id'];?>" hidden>
+    // Jeśli data to '0000-00-00', ustaw pusty string
+    $data_urodzenia = ($row['data_urodzenia'] === '0000-00-00') ? '' : $row['data_urodzenia'];
+    $data_smierci = ($row['data_smierci'] === '0000-00-00') ? '' : $row['data_smierci'];
+    ?>
 
-        <label for="imie">Imie:</label>
-        <input type="text" class="form-control" id="imie" name="imie" value="<?PHP echo $row['imie'];?>" autocomplete="off">
-    </div>
+    <h2>Edycja zmarłego</h2>
 
-    <div class="form-group">
-        <label for="nazwisko">Nazwisko:</label>
-        <input type="text" class="form-control" id="nazwisko" name="nazwisko" value="<?PHP echo $row['nazwisko'];?>" autocomplete="off">
-    </div>
+    <form action="zapisz_editzmarlego.php" method="post">
 
-    <div class="form-group">
-        <label for="data_urodzenia">Data urodzenia:</label>
-        <input type="date" class="form-control" id="data_urodzenia" name="data_urodzenia" autocomplete="off" value="<?PHP echo $row['data_urodzenia'];?>">
-    </div>
+        <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
 
-    <div class="form-group">
-        <label for="data_smierci">Data śmierci:</label>
-        <input type="date" class="form-control" id="data_smierci" name="data_smierci" autocomplete="off" value="<?PHP echo $row['data_smierci'];?>">
-    </div>
+        <div class="form-group">
+            <label for="imie">Imie:</label>
+            <input type="text" class="form-control" id="imie" name="imie" value="<?php echo htmlspecialchars($row['imie']); ?>" autocomplete="off">
+        </div>
 
-    <div class="form-group">
-        <label for="notka">Notka:</label>
-        <input type="text" class="form-control" id="notka" name="notka" value="<?PHP echo $row['notka'];?>" autocomplete="off">
-    </div>
+        <div class="form-group">
+            <label for="nazwisko">Nazwisko:</label>
+            <input type="text" class="form-control" id="nazwisko" name="nazwisko" value="<?php echo htmlspecialchars($row['nazwisko']); ?>" autocomplete="off">
+        </div>
 
-    <p>
-        <button type="submit" class="btn btn-primary">Popraw</button>
-    </p>
+        <div class="form-group">
+            <label for="data_urodzenia">Data urodzenia:</label>
+            <input type="date" class="form-control" id="data_urodzenia" name="data_urodzenia" value="<?php echo $data_urodzenia; ?>" autocomplete="off">
+        </div>
 
-</form>
+        <div class="form-group">
+            <label for="data_smierci">Data śmierci:</label>
+            <input type="date" class="form-control" id="data_smierci" name="data_smierci" value="<?php echo $data_smierci; ?>" autocomplete="off">
+        </div>
 
-<?PHP
-            };
-        } else {
-            echo "0 results";
-        }
+        <div class="form-group">
+            <label for="notka">Notka:</label>
+            <input type="text" class="form-control" id="notka" name="notka" value="<?php echo htmlspecialchars($row['notka']); ?>" autocomplete="off">
+        </div>
 
-        $conn->close();
-        ?>
+        <p>
+            <button type="submit" class="btn btn-primary">Popraw</button>
+        </p>
+
+    </form>
+
+    <?php
+} else {
+    echo "Nie znaleziono rekordu o podanym ID.";
+}
+
+$conn->close();
+?>

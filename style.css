@@ -1,126 +1,47 @@
-html, body {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-body {
+.date-toggle-container {
     display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+    align-items: center;
+    gap: 1.5rem;      /* Większa przerwa między grupami */
+    margin-bottom: 1rem;
+    flex-wrap: nowrap; /* Brak zawijania do kolejnej linii */
 }
 
-#menu {
-    background-color: #aaaaaa;
-}
-
-#main {
-    flex: 1;
-    background-color: #889ea2;
-    margin: 10px;
-    padding: 10px;
-    border: 1px solid #637174;
-}
-
-#footer {
-    background-color: #8585ff;
-    padding: 10px;
-    margin-top: auto;
-}
-
-.container {
-    max-width: 100% !important;
-}
-
-.jumbotron {
-    padding: 5px;
-}
-
-.center {
-    width: 100%;
+.date-toggle-group {
     display: flex;
-    justify-content: left;
+    align-items: center;
+    gap: 0.75rem;     /* Odstęp między checkboxem a label+input */
+    margin-right: 1rem; /* Odstęp między grupami */
 }
 
-form {
-    margin: 10px;
-    padding: 10px;
-    background-color: #6fc58a;
-    color: #eeeeee;
-    border: 1px solid #B5A8D5;
+/* Powiększone checkboxy */
+.form-check-input {
+    width: 1.8em;     /* większa szerokość */
+    height: 1.8em;    /* większa wysokość */
+    cursor: pointer;
 }
 
-/* Główna stylizacja tabeli */
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-/* Komórki tabeli – nagłówki i dane */
-
-table th {
-    vertical-align: top;
-    text-align: center;
-    white-space: nowrap;
-    word-break: break-word;
-    padding: 8px;
-    min-width: 120px;
-}
-
-table td {
-    vertical-align: top;
-    text-align: center;
-    white-space: normal;
-    word-break: break-word;
-    padding: 8px;
-}
-
-/* Zwiększona przejrzystość dla kolumn z notkami */
-th:nth-child(8), td:nth-child(8),  /* Notka zmarłego */
-th:nth-child(12), td:nth-child(12), /* Notka grobu */
-th:nth-child(14), td:nth-child(14)  /* Notka pochówku */
-{
-    white-space: normal;
-    word-break: break-word;
-    text-align: left;
-}
-
-/* Styl nagłówków tabeli */
-thead th {
-    background-color: #f0f0f0;
-    font-weight: bold;
+/* Dopasowanie label i input w date-toggle-group */
+.date-toggle-group label {
+    margin-bottom: 0;
+    cursor: pointer;
     white-space: nowrap;
 }
 
-/* Styl dla przycisków akcji */
-td:last-child {
-    white-space: nowrap;
+/* Pola wyboru dat — wyrównanie wysokości i szerokości */
+.date-toggle-group input[type="date"] {
+    width: 160px;     /* lekko szersze niż 150px */
+    height: 2.2em;    /* trochę wyższe dla lepszej czytelności */
+    padding: 0.25em 0.4em;
+    box-sizing: border-box;
 }
 
-/* Dla kolumn z długim tekstem pozwalamy na łamanie */
-th:nth-child(12), td:nth-child(12), /* Notka grobu */
-th:nth-child(14), td:nth-child(14)  /* Notka pochówku */
-{
-    white-space: normal;
-    word-break: break-word;
-    text-align: left;
+/* Zapewnienie, że etykiety i inputy są wyśrodkowane pionowo */
+.date-toggle-group > div {
+    display: flex;
+    align-items: center;
 }
 
-a.btn-secondary {
-    background-color: #6c757d !important;
-    color: #fff !important;
-    text-decoration: none !important;
-    padding: 0.375rem 0.75rem;
-    border-radius: 0.25rem;
-    display: inline-block;
-}
-a.btn-secondary:hover {
-    background-color: #5a6268 !important;
-}
-
-/* Kolory dla nagłówków */
-thead th {
-    background-color: #f8f9fa;
-    font-weight: bold;
+/* Usuwanie nadmiernego marginesu pod labelami */
+.form-group label {
+    margin-bottom: 0.2rem;
 }

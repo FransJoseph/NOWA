@@ -28,27 +28,30 @@
 
     <div class="form-group">
         <label for="rodzaj">Rodzaj:</label>
-        <input list="rodzaje" class="form-control" id="rodzaj" name="rodzaj" value="<?PHP echo $row['rodzaj'];?>" autocomplete="off">
+        <input list="rodzaj" class="form-control" id="rodzaj" name="rodzaj" value="<?PHP echo $row['rodzaj'];?>" autocomplete="off">
 
-        <datalist id="rodzaje">
+        <datalist id="rodzaj">
             <option value="ziemny">
+            <option value="grobowiec">
             <option value="pomnik">
-            <option value="grób rodzinny">
-            <option value="grób dziecka">
+            <option value="kolumbarium">
             <option value="inny">
         </datalist>
 
     </div>
 
     <div class="form-group">
-        <label for="oplata">Opłata:</label>
-        <input list="TF" class="form-control" id="oplata" name="oplata" autocomplete="off" value="<?PHP echo $row['oplata'];?>">
-
-        <datalist id="TF">
-            <option value="TAK">
-            <option value="NIE">
-        </datalist>
-
+        <label>Opłata:</label><br>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="oplata" id="oplata_tak" value="TAK"
+                <?php if (isset($row['oplata']) && $row['oplata'] === 'TAK') echo 'checked'; ?> required>
+            <label class="form-check-label" for="oplata_tak">TAK</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="oplata" id="oplata_nie" value="NIE"
+                <?php if (isset($row['oplata']) && $row['oplata'] === 'NIE') echo 'checked'; ?> required>
+            <label class="form-check-label" for="oplata_nie">NIE</label>
+        </div>
     </div>
 
     <div class="form-group">

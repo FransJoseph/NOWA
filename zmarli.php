@@ -5,6 +5,10 @@ session_start();
 
 <?php if(isset($_SESSION['login'])){ ?>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="app.js"></script>
+
+
     <h3>Dodaj zmarłego do bazy</h3>
 
     <form action="dodaj_zmarlego.php" method="POST">
@@ -16,18 +20,38 @@ session_start();
 
         <div class="form-group">
             <label for="nazwisko">Nazwisko</label>
-            <input type="text" class="form-control" id="nazwisko" name="nazwisko" style="width: 750px;" placeholder="W przypadku braku pozostawić puste" autocomplete="off">
+            <input type="text" class="form-control" id="nazwisko" name="nazwisko" style="width: 750px;" placeholder="W przypadku braku pozostawić puste" required autocomplete="off">
         </div>
 
-        <div class="form-group">
-            <label for="data_urodzenia">Data urodzenia</label>
-            <input type="date" class="form-control" id="data_urodzenia" name="data_urodzenia" style="width: 150px;" autocomplete="off">
+        <div class="date-toggle-container">
+
+            <!-- Data urodzenia -->
+            <div class="date-toggle-group">
+                <div class="form-check form-switch d-flex align-items-center">
+                    <input class="form-check-input" type="checkbox" id="toggleUrodzenie" checked>
+                    <label class="form-check-label ml-2" for="toggleUrodzenie">Data urodzenia</label>
+                </div>
+                <div class="form-group mb-0" id="urodzenieContainer">
+                    <input type="date" class="form-control" id="data_urodzenia" name="data_urodzenia" style="width: 150px;" autocomplete="off">
+                </div>
+            </div>
+
+            <p>
+
+            <!-- Data śmierci -->
+            <div class="date-toggle-group">
+                <div class="form-check form-switch d-flex align-items-center">
+                    <input class="form-check-input" type="checkbox" id="toggleSmierc" checked>
+                    <label class="form-check-label ml-2" for="toggleSmierc">Data śmierci</label>
+                </div>
+                <div class="form-group mb-0" id="smiercContainer">
+                    <input type="date" class="form-control" id="data_smierci" name="data_smierci" style="width: 150px;" autocomplete="off">
+                </div>
+            </div>
+
         </div>
 
-        <div class="form-group">
-            <label for="data_smierci">Data śmierci</label>
-            <input type="date" class="form-control" id="data_smierci" name="data_smierci" style="width: 150px;" autocomplete="off">
-        </div>
+        <p>
 
         <div class="form-group">
             <label for="notka">Notka (niewymagana)</label>
@@ -87,4 +111,5 @@ session_start();
     $conn->close();
     ?>
     </tbody>
+
 </table>

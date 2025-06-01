@@ -1,22 +1,49 @@
 <?php
 include 'dbconfig.php';
 
-$id = $_POST['id'];
-$imie = $_POST['imie'];
-$nazwisko = $_POST['nazwisko'];
-$data_urodzenia = $_POST['data_urodzenia'];
-$data_smierci = $_POST['data_smierci'];
-$notka = $_POST['notka'];
+if (!isset($_POST['id']) || !is_numeric($_POST['id'])) {
+    die("Nieprawidłowy ID");
+}
+
+$id = (int)$_POST['id'];
+$imie = $_POST['imie'] ?? '';
+$nazwisko = $_POST['nazwisko'] ?? '';
+$data_urodzenia = $_POST['data_urodzenia'] ?? '';
+$data_smierci = $_POST['data_smierci'] ?? '';
+$notka = $_POST['notka'] ?? '';
 
 $conn = new mysqli($server, $user, $password, $dbname);
 if ($conn->connect_error) {
     die("Błąd połączenia z bazą danych: " . $conn->connect_error);
 }
 
-$zapytanie = "UPDATE `zmarli` SET `imie` = '$imie', `nazwisko` = '$nazwisko', `data_urodzenia` = '$data_urodzenia', `data_smierci` = '$data_smierci', `notka` = '$notka' WHERE `zmarli`.`id` = $id;";
+// Zabezpieczenie tekstów przed SQL Injection
+$imie = $conn->real_escape_string($imie);
+$nazwisko = $conn->real_escape_string($nazwisko);
+$notka = $conn->real_escape_string($notka);
 
+function sqlDateOrNull($date) {
+    // Zwraca 'NULL' lub 'YYYY-MM-DD' w apostrofach
+    if ($date === '' || $date === null) {
+        return "NULL";
+    }
+    return "'" . $date . "'";
+}
 
-$result = $conn->query($zapytanie);
+$data_urodzenia_sql = sqlDateOrNull($data_urodzenia);
+$data_smierci_sql = sqlDateOrNull($data_smierci);
+
+$sql = "UPDATE zmarli SET 
+    imie = '$imie', 
+    nazwisko = '$nazwisko', 
+    data_urodzenia = $data_urodzenia_sql, 
+    data_smierci = $data_smierci_sql, 
+    notka = '$notka' 
+    WHERE id = $id";
+
+if (!$conn->query($sql)) {
+    die("Błąd aktualizacji: " . $conn->error);
+}
 
 $conn->close();
 ?>
@@ -30,9 +57,8 @@ $conn->close();
     <script>
         setTimeout(function () {
             window.history.go(-2);
-        }, 250); // 1000 ms = 1 sekunda
+        }, 250);
     </script>
-
 </head>
 
 <body>
