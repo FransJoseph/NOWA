@@ -1,11 +1,21 @@
-<?PHP
+<?php
 session_start();
 session_destroy();
-echo "Wylogowywanie... Zostaniesz przekierowany za chwilę.";
 ?>
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Wylogowywanie</title>
+</head>
+<body>
+<p>Wylogowywanie... Zostaniesz przekierowany za chwilę.</p>
 
 <script>
     setTimeout(function () {
-        window.history.go(-2);
-    }, 250); // 1000 ms = 1 sekunda
+        window.location.href = 'index.php'; // Przekierowanie na stronę główną
+    }, 1000); // 1000 ms = 1 sekunda
 </script>
+</body>
+</html>

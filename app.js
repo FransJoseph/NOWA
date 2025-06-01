@@ -1,18 +1,22 @@
 $(document).ready(function () {
+    // Ładowanie treści do #main po kliknięciu w link z klasą .link
     $(".link").click(function () {
-        $("#main").load($(this).attr("link"));
+        const targetUrl = $(this).attr("link");
+        if (targetUrl) {
+            $("#main").load(targetUrl);
+        }
     });
 
-    // Pokazuje/ukrywa pole daty (inne przypadki)
+    // Funkcja do pokazywania/ukrywania pola daty i resetowania wartości inputu
     function toggleDateField(toggleSelector, containerSelector, inputSelector) {
-        if ($(toggleSelector).is(":checked")) {
-            $(containerSelector).show();
-        } else {
-            $(containerSelector).hide();
+        const isChecked = $(toggleSelector).is(":checked");
+        $(containerSelector).toggle(isChecked);
+        if (!isChecked) {
             $(inputSelector).val("");
         }
     }
 
+    // Obsługa przełączników dat urodzenia i śmierci
     $("#toggleUrodzenie").on("change", function () {
         toggleDateField("#toggleUrodzenie", "#urodzenieContainer", "#data_urodzenia");
     });
@@ -21,16 +25,17 @@ $(document).ready(function () {
         toggleDateField("#toggleSmierc", "#smiercContainer", "#data_smierci");
     });
 
+    // Inicjalne ustawienie widoczności i wartości pól dat
     toggleDateField("#toggleUrodzenie", "#urodzenieContainer", "#data_urodzenia");
     toggleDateField("#toggleSmierc", "#smiercContainer", "#data_smierci");
 
-    // ---- Pochówek - brak daty ----
+    // Inicjalizacja przełącznika "brak daty" dla pochówku
     function initPochowekDateToggle() {
         const checkbox = $("#brak_daty");
         const input = $("#data_pochowku");
 
         if (checkbox.length && input.length) {
-            // ustaw stan początkowy
+            // Stan początkowy - wyłącz pole daty jeśli checkbox zaznaczony
             input.prop("disabled", checkbox.is(":checked"));
 
             checkbox.on("change", function () {
@@ -43,16 +48,15 @@ $(document).ready(function () {
         }
     }
 
-    // Obserwator zmian w #main dla dynamicznych załadunków
-    const observer = new MutationObserver(() => {
-        initPochowekDateToggle();
-    });
-
+    // Obserwator zmian w elemencie #main, aby dynamicznie inicjalizować elementy
     const main = document.getElementById("main");
     if (main) {
+        const observer = new MutationObserver(() => {
+            initPochowekDateToggle();
+        });
         observer.observe(main, { childList: true, subtree: true });
     }
 
-    // Pierwsze uruchomienie
+    // Inicjalizacja przy starcie strony
     initPochowekDateToggle();
 });

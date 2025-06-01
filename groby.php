@@ -1,33 +1,43 @@
-<?php include 'dbconfig.php';
-session_start(); ?>
+<?php
+include 'dbconfig.php';
+session_start();
+?>
 
-<?php if(isset($_SESSION['login'])){ ?>
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8" />
+    <title>Groby</title>
+    <link rel="stylesheet" href="path_to_bootstrap.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" />
+</head>
+<body>
+
+<?php if (isset($_SESSION['login'])) { ?>
 
     <h2>Dodaj grób do bazy</h2>
 
     <form action="dodaj_grob.php" method="post">
 
         <div class="form-group">
-            <label for="lokalizacja">Lokalizacja</label>
+            <label for="lokalizacja">Lokalizacja <span class="text-danger">*</span></label>
             <input type="text" class="form-control" id="lokalizacja" name="lokalizacja" style="width: 750px;" placeholder="Podążaj za ustaloną notacją" autocomplete="off" required>
         </div>
 
         <div class="form-group">
             <label for="rodzaj">Rodzaj</label>
-            <label>
-                <input list="rodzaj" name="rodzaj" placeholder="Wybierz rodzaj grobu" required>
-            </label>
+            <input list="rodzaj" name="rodzaj" placeholder="Wybierz rodzaj grobu" style="max-width: 250px;" class="form-control">
             <datalist id="rodzaj">
-                <option value="ziemny">
-                <option value="grobowiec">
-                <option value="pomnik">
-                <option value="kolumbarium">
-                <option value="inny">
+                <option value="ziemny"></option>
+                <option value="grobowiec"></option>
+                <option value="pomnik"></option>
+                <option value="kolumbarium"></option>
+                <option value="inny"></option>
             </datalist>
         </div>
 
         <div class="form-group">
-            <label>Opłata</label><br>
+            <label>Opłata <span class="text-danger">*</span></label><br>
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="oplata" value="TAK" id="oplata_tak" required>
                 <label class="form-check-label" for="oplata_tak">TAK</label>
@@ -37,7 +47,6 @@ session_start(); ?>
                 <label class="form-check-label" for="oplata_nie">NIE</label>
             </div>
         </div>
-
 
         <div class="form-group">
             <label for="notka">Notka (niewymagana)</label>
@@ -49,11 +58,9 @@ session_start(); ?>
 
     </form>
 
-<?php } else {
-    echo "<h3>Nie masz uprawnień do dodawania grobów</h3>";
-} ?>
-
-<p>
+<?php } else { ?>
+    <h3>Nie masz uprawnień do dodawania grobów</h3>
+<?php } ?>
 
 <h2>Groby</h2>
 
@@ -75,25 +82,34 @@ session_start(); ?>
         die("Błąd połączenia z bazą danych: " . $conn->connect_error);
     }
 
-    $zapytanie = "SELECT * FROM groby";
-
+    $zapytanie = "SELECT * FROM groby ORDER BY lokalizacja ASC";
     $result = $conn->query($zapytanie);
 
-    if ($result->num_rows > 0) {
+    if ($result && $result->num_rows > 0) {
         $licznik = 1;
         while ($row = $result->fetch_assoc()) {
-            echo "<tr><td>" . $licznik++ . "</td><td>" . $row["lokalizacja"] . "</td><td>" . $row["rodzaj"] . "</td><td>" . $row["oplata"] . "</td><td>" . $row["notka"] . "</td>";
+            echo "<tr>";
+            echo "<td>" . $licznik++ . "</td>";
+            echo "<td>" . htmlspecialchars($row["lokalizacja"]) . "</td>";
+            echo "<td>" . htmlspecialchars($row["rodzaj"]) . "</td>";
+            echo "<td>" . htmlspecialchars($row["oplata"]) . "</td>";
+            echo "<td>" . htmlspecialchars($row["notka"]) . "</td>";
             echo "<td>";
             if (isset($_SESSION['login'])) {
-                echo "<a class='btn btn-warning btn-sm' style='margin-right: 4px;' href='editgroby.php?id=" . $row["id"] . "'title='Edytuj'> <i class='bi bi-pencil-square'> </i> </a>";
-                echo "<a class='btn btn-danger btn-sm' href='delgroby.php?id=" . $row["id"] . "'title='Usuń'> <i class='bi bi-x-circle'> </i> </a> ";
+                echo "<a class='btn btn-warning btn-sm me-1' style='margin-right: 4px;' href='editgroby.php?id=" . urlencode($row["id"]) . "' title='Edytuj'> <i class='bi bi-pencil-square'></i> </a>";
+                echo "<a class='btn btn-danger btn-sm' href='delgroby.php?id=" . urlencode($row["id"]) . "' title='Usuń' onclick=\"return confirm('Czy na pewno chcesz usunąć ten grób?');\"> <i class='bi bi-x-circle'></i> </a>";
             }
-            echo "</td></tr>\n";
+            echo "</td>";
+            echo "</tr>\n";
         }
     } else {
         echo "<tr><td colspan='6'>Brak wyników</td></tr>";
     }
 
-    $conn->close(); ?>
+    $conn->close();
+    ?>
     </tbody>
 </table>
+
+</body>
+</html>

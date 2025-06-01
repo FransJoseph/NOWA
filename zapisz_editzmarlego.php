@@ -8,8 +8,8 @@ if (!isset($_POST['id']) || !is_numeric($_POST['id'])) {
 $id = (int)$_POST['id'];
 $imie = $_POST['imie'] ?? '';
 $nazwisko = $_POST['nazwisko'] ?? '';
-$data_urodzenia = $_POST['data_urodzenia'] ?? '';
-$data_smierci = $_POST['data_smierci'] ?? '';
+$data_urodzenia = $_POST['data_urodzenia'] ?: null; // null jeśli puste
+$data_smierci = $_POST['data_smierci'] ?: null;
 $notka = $_POST['notka'] ?? '';
 
 $conn = new mysqli($server, $user, $password, $dbname);
@@ -17,47 +17,53 @@ if ($conn->connect_error) {
     die("Błąd połączenia z bazą danych: " . $conn->connect_error);
 }
 
-// Zabezpieczenie tekstów przed SQL Injection
-$imie = $conn->real_escape_string($imie);
-$nazwisko = $conn->real_escape_string($nazwisko);
-$notka = $conn->real_escape_string($notka);
-
-function sqlDateOrNull($date) {
-    // Zwraca 'NULL' lub 'YYYY-MM-DD' w apostrofach
-    if ($date === '' || $date === null) {
-        return "NULL";
-    }
-    return "'" . $date . "'";
-}
-
-$data_urodzenia_sql = sqlDateOrNull($data_urodzenia);
-$data_smierci_sql = sqlDateOrNull($data_smierci);
-
+// Przygotowane zapytanie z obsługą NULL dla dat
 $sql = "UPDATE zmarli SET 
-    imie = '$imie', 
-    nazwisko = '$nazwisko', 
-    data_urodzenia = $data_urodzenia_sql, 
-    data_smierci = $data_smierci_sql, 
-    notka = '$notka' 
-    WHERE id = $id";
+    imie = ?, 
+    nazwisko = ?, 
+    data_urodzenia = ?, 
+    data_smierci = ?, 
+    notka = ? 
+    WHERE id = ?";
 
-if (!$conn->query($sql)) {
-    die("Błąd aktualizacji: " . $conn->error);
+$stmt = $conn->prepare($sql);
+if (!$stmt) {
+    die("Błąd przygotowania zapytania: " . $conn->error);
 }
 
+$stmt->bind_param(
+    "sssssi",
+    $imie,
+    $nazwisko,
+    $data_urodzenia,
+    $data_smierci,
+    $notka,
+    $id
+);
+
+// Jeśli data jest pusta, to ustaw na NULL:
+if ($data_urodzenia === '') $data_urodzenia = null;
+if ($data_smierci === '') $data_smierci = null;
+
+if (!$stmt->execute()) {
+    die("Błąd aktualizacji: " . $stmt->error);
+}
+
+$stmt->close();
 $conn->close();
 ?>
 
+<!DOCTYPE html>
 <html lang="pl">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Automatyczny powrót</title>
     <script>
         setTimeout(function () {
             window.history.go(-2);
-        }, 250);
+        }, 500);
     </script>
 </head>
 

@@ -8,7 +8,7 @@ if ($conn->connect_error) {
     die("Błąd połączenia z bazą danych: " . $conn->connect_error);
 }
 
-$searchEscaped = "%" . mb_strtolower($conn->real_escape_string($search), 'UTF-8') . "%";
+$searchEscaped = "%" . mb_strtolower($search, 'UTF-8') . "%";
 
 $sql = "
     SELECT 
@@ -29,24 +29,24 @@ $sql = "
     JOIN zmarli ON pochowki.id_zmarly = zmarli.id
     JOIN groby ON pochowki.id_grob = groby.id
     WHERE
-        LOWER(zmarli.imie) COLLATE utf8mb4_general_ci LIKE ? OR
-        LOWER(zmarli.nazwisko) COLLATE utf8mb4_general_ci LIKE ? OR
-        LOWER(zmarli.notka) COLLATE utf8mb4_general_ci LIKE ? OR
+        LOWER(zmarli.imie) LIKE ? OR
+        LOWER(zmarli.nazwisko) LIKE ? OR
+        LOWER(zmarli.notka) LIKE ? OR
         DATE_FORMAT(zmarli.data_urodzenia, '%Y-%m-%d') LIKE ? OR
         DATE_FORMAT(zmarli.data_smierci, '%Y-%m-%d') LIKE ? OR
-        LOWER(groby.lokalizacja) COLLATE utf8mb4_general_ci LIKE ? OR
-        LOWER(groby.rodzaj) COLLATE utf8mb4_general_ci LIKE ? OR
+        LOWER(groby.lokalizacja) LIKE ? OR
+        LOWER(groby.rodzaj) LIKE ? OR
         CAST(groby.oplata AS CHAR) LIKE ? OR
-        LOWER(groby.notka) COLLATE utf8mb4_general_ci LIKE ? OR
-        LOWER(pochowki.rodzaj_pochowku) COLLATE utf8mb4_general_ci LIKE ? OR
+        LOWER(groby.notka) LIKE ? OR
+        LOWER(pochowki.rodzaj_pochowku) LIKE ? OR
         DATE_FORMAT(pochowki.data_pochowku, '%Y-%m-%d') LIKE ? OR
-        LOWER(pochowki.notka_pochowku) COLLATE utf8mb4_general_ci LIKE ?
+        LOWER(pochowki.notka_pochowku) LIKE ?
     ORDER BY pochowki.id DESC
 ";
 
 $stmt = $conn->prepare($sql);
 $params = array_fill(0, 12, $searchEscaped);
-$stmt->bind_param(str_repeat("s", 12), ...$params);
+$stmt->bind_param(str_repeat('s', 12), ...$params);
 $stmt->execute();
 $result = $stmt->get_result();
 ?>
@@ -63,15 +63,12 @@ $result = $stmt->get_result();
 <h2>Szukaj</h2>
 
 <form method="GET" action="szukaj.php" class="mb-3">
-    <input type="text" name="q" class="form-control mb-2" placeholder="Wpisz imię, nazwisko, lokalizację, datę, notkę itd." value="<?php echo htmlspecialchars($search); ?>">
-
+    <input type="text" name="q" class="form-control mb-2" placeholder="Wpisz imię, nazwisko, lokalizację, datę, notkę itd." value="<?php echo htmlspecialchars($search, ENT_QUOTES, 'UTF-8'); ?>">
     <div class="d-flex gap-2">
         <button type="submit" class="btn btn-primary">Szukaj</button>
         <a href="index.php" class="btn btn-secondary">Powrót</a>
     </div>
 </form>
-
-<p>
 
 <?php
 if ($result->num_rows > 0) {
@@ -85,21 +82,20 @@ if ($result->num_rows > 0) {
     $i = 1;
     while ($row = $result->fetch_assoc()) {
         echo "<tr>
-            <td>{$i}</td>
-            <td>{$row['imie']}</td>
-            <td>{$row['nazwisko']}</td>
-            <td>{$row['data_urodzenia']}</td>
-            <td>{$row['data_smierci']}</td>
-            <td>{$row['notka_zmarlego']}</td>
-            <td>{$row['lokalizacja']}</td>
-            <td>{$row['rodzaj']}</td>
-            <td>{$row['oplata']}</td>
-            <td>{$row['notka_grobu']}</td>
-            <td>{$row['data_pochowku']}</td>
-            <td>{$row['rodzaj_pochowku']}</td>
-            <td>{$row['notka_pochowku']}</td>
+            <td>" . $i++ . "</td>
+            <td>" . htmlspecialchars($row['imie'], ENT_QUOTES, 'UTF-8') . "</td>
+            <td>" . htmlspecialchars($row['nazwisko'], ENT_QUOTES, 'UTF-8') . "</td>
+            <td>" . htmlspecialchars($row['data_urodzenia'], ENT_QUOTES, 'UTF-8') . "</td>
+            <td>" . htmlspecialchars($row['data_smierci'], ENT_QUOTES, 'UTF-8') . "</td>
+            <td>" . htmlspecialchars($row['notka_zmarlego'], ENT_QUOTES, 'UTF-8') . "</td>
+            <td>" . htmlspecialchars($row['lokalizacja'], ENT_QUOTES, 'UTF-8') . "</td>
+            <td>" . htmlspecialchars($row['rodzaj'], ENT_QUOTES, 'UTF-8') . "</td>
+            <td>" . htmlspecialchars($row['oplata'], ENT_QUOTES, 'UTF-8') . "</td>
+            <td>" . htmlspecialchars($row['notka_grobu'], ENT_QUOTES, 'UTF-8') . "</td>
+            <td>" . htmlspecialchars($row['data_pochowku'], ENT_QUOTES, 'UTF-8') . "</td>
+            <td>" . htmlspecialchars($row['rodzaj_pochowku'], ENT_QUOTES, 'UTF-8') . "</td>
+            <td>" . htmlspecialchars($row['notka_pochowku'], ENT_QUOTES, 'UTF-8') . "</td>
         </tr>";
-        $i++;
     }
 
     echo "</tbody></table>";
