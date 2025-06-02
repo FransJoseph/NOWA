@@ -81,7 +81,7 @@ session_start();
         <th>Data urodzenia</th>
         <th>Data śmierci</th>
         <th>Notka</th>
-        <th class="text-right pr-4">Akcje</th>
+        <th class="text-right pr-1">Akcje</th>
     </tr>
     </thead>
 

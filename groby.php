@@ -54,6 +54,9 @@ session_start();
             <textarea class="form-control" id="notka" name="notka" placeholder="Wyjaśnienia nieścisłości etc." rows="3"></textarea>
         </div>
 
+        <p>
+        <p>
+
         <button type="submit" class="btn btn-primary">Dodaj grób</button>
         <button type="reset" class="btn btn-secondary">Resetuj</button>
 
