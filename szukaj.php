@@ -57,6 +57,7 @@ $result = $stmt->get_result();
     <meta charset="UTF-8">
     <title>Wyszukiwanie</title>
     <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body class="p-4">
 
