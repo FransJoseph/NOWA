@@ -8,8 +8,8 @@ session_start();
 <head>
     <meta charset="UTF-8" />
     <title>Groby</title>
-    <link rel="stylesheet" href="path_to_bootstrap.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" />
+    <link href="bootstrap.min.css" rel="stylesheet" />
+    <link href="bootstrap-icons.css" rel="stylesheet" />
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -77,7 +77,7 @@ session_start();
         <th>Rodzaj</th>
         <th>Opłata</th>
         <th>Notka</th>
-        <th class="text-right pr-4">Akcje</th>
+        <th class="text-end pe-4">Akcje</th>
     </tr>
     </thead>
     <tbody>
@@ -99,7 +99,7 @@ session_start();
             echo "<td>" . htmlspecialchars($row["rodzaj"]) . "</td>";
             echo "<td>" . htmlspecialchars($row["oplata"]) . "</td>";
             echo "<td>" . htmlspecialchars($row["notka"]) . "</td>";
-            echo "<td class='text-right'>";
+            echo "<td class='text-end pe-6'>";
             if (isset($_SESSION['login'])) {
                 echo "<a class='btn btn-warning btn-sm me-1' style='margin-right: 4px;' href='editgroby.php?id=" . urlencode($row["id"]) . "' title='Edytuj'> <i class='bi bi-pencil-square'></i> </a>";
                 echo "<a class='btn btn-danger btn-sm' href='delgroby.php?id=" . urlencode($row["id"]) . "' title='Usuń' onclick=\"return confirm('Czy na pewno chcesz usunąć ten grób?');\"> <i class='bi bi-x-circle'></i> </a>";
