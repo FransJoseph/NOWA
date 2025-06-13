@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Cze 01, 2025 at 10:59 PM
+-- Generation Time: Cze 12, 2025 at 08:34 PM
 -- Wersja serwera: 10.4.32-MariaDB
 -- Wersja PHP: 8.2.12
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `cmentarz`
 --
+CREATE DATABASE IF NOT EXISTS `cmentarz` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_polish_ci;
+USE `cmentarz`;
 
 -- --------------------------------------------------------
 
