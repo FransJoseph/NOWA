@@ -49,7 +49,7 @@ if ($conn->connect_error) die("Błąd połączenia z bazą danych: " . $conn->co
 
         <p>Data pochówku:</p>
         <input type="date" class="form-control" id="data_pochowku" name="data_pochowku" style="width: 150px;" required>
-        <br>
+        <p>
         <input type="checkbox" name="brak_daty" id="brak_daty" onchange="toggleDateInput()">
         <label for="brak_daty">Nieznana data pochówku</label>
 
@@ -66,6 +66,8 @@ if ($conn->connect_error) die("Błąd połączenia z bazą danych: " . $conn->co
                 }
             }
         </script>
+
+        <p>
 
         <p>Rodzaj pochówku:</p>
         <input list="rodzaj_pochowku" name="rodzaj_pochowku" class="form-control" style="width: 150px;" placeholder="Wybierz z listy">

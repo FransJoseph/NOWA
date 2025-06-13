@@ -29,7 +29,6 @@ if ($result->num_rows > 0) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Edycja grobu</title>
         <style>
-            /* Prosta walidacja wizualna */
             input:invalid {
                 border-color: red;
             }

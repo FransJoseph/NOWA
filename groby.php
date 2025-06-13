@@ -73,6 +73,7 @@ session_start();
 <h2>Groby</h2>
 
 <table class="table table-hover table-sm table-striped bg-white">
+
     <thead>
     <tr>
         <th>#</th>
@@ -83,6 +84,7 @@ session_start();
         <th class="text-end pe-4">Akcje</th>
     </tr>
     </thead>
+
     <tbody>
     <?php
     $conn = new mysqli($server, $user, $password, $dbname);

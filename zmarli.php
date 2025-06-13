@@ -11,7 +11,7 @@ session_start();
     <title>Zmarli</title>
     <link href="bootstrap.min.css" rel="stylesheet" />
     <link href="bootstrap-icons.css" rel="stylesheet" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="jquery-3.6.0.min.js"></script>
     <script src="app.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -81,7 +81,7 @@ session_start();
         <th>Data urodzenia</th>
         <th>Data śmierci</th>
         <th>Notka</th>
-        <th class="text-right pr-1">Akcje</th>
+        <th class="text-right pr-4">Akcje</th>
     </tr>
     </thead>
 

@@ -53,13 +53,15 @@ $result = $stmt->get_result();
 
 <!DOCTYPE html>
 <html lang="pl">
+
 <head>
     <meta charset="UTF-8">
     <title>Wyszukiwanie</title>
     <link rel="stylesheet" href="bootstrap.min.css">
-    <link rel="stylesheet" href="style.css">
 </head>
 <body class="p-4">
+
+<link rel="stylesheet" href="style.css">
 
 <h2>Szukaj</h2>
 

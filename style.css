@@ -15,10 +15,9 @@ body {
     margin-right: 1rem; /* Odstęp między grupami */
 }
 
-/* Powiększone checkboxy */
 .form-check-input {
-    width: 1.25em;     /* większa szerokość */
-    height: 1.25em;    /* większa wysokość */
+    width: 1.25em;
+    height: 1.25em;
     cursor: pointer;
 }
 
@@ -35,5 +34,5 @@ h1 {
 }
 
 #footer {
-    color: #0b0e23; /* kolor tekstu na czerwony */
+    color: #0b0e23;
 }
