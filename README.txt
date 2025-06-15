@@ -6,4 +6,4 @@ admin
 Hasło:
 123456
 
-Życzę udanego uropu!
+Życzę udanego urlopu!
