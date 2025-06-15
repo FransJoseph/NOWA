@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Cze 12, 2025 at 08:34 PM
+-- Generation Time: Cze 15, 2025 at 01:28 PM
 -- Wersja serwera: 10.4.32-MariaDB
 -- Wersja PHP: 8.2.12
 
@@ -43,7 +43,7 @@ CREATE TABLE `groby` (
 
 INSERT INTO `groby` (`id`, `lokalizacja`, `rodzaj`, `oplata`, `notka`) VALUES
 (14, 'Północ', '', 'NIE', 'W trakcie likwidacji'),
-(15, 'Wawer', 'grobowiec', 'TAK', 'Grzegorz (id 3) jest pochowany gdzie indziej'),
+(15, 'Wawer', 'grobowiec', 'TAK', 'Grzegorz - pochowany na innym cmentarzu'),
 (16, 'Wawel', 'kolumbarium', 'TAK', ''),
 (17, 'Północ', 'inny', 'NIE', 'Plakietka likwidacyjna'),
 (18, 'Wawer', 'pomnik', 'TAK', 'Pomnik - w czysto lokalnej definicji'),
